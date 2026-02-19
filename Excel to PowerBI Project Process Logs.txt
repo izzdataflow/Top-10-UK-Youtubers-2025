@@ -1,0 +1,81 @@
+Excel to PowerBI Project (Top Performing Youtube Channel from UK)
+
+[Source -> Destination] 
+Excel(Kaggle data) -> SQL Server(test and data quality check) -> PowerBI (build the dashboard, visualize data, analyze data and giving insight)
+
+[Stages]
+1.Get requirement from the user
+2.Design the dashboard
+3.Collect data from the source
+4.Explore the data and its content
+5.Clean the data
+6.Visualize the data
+7.Analyze the data
+8.Justify & record findings
+
+[Objective]
+To run successful marketing campaigns with the top UK youtubers
+
+[Challenges]
+Struggled to find the right info 
+=on the internet 
+-from 3rd party providers 
+-from BI reporting team
+
+[Solution]
+To create simple dashboard that displays the top UK youtubers by
+-subscriber
+-video uploads
+-views
+
+Pre-process logs (putting data into SSMS from Kaggle)
+1.create Word documents about user requirements
+2.create mockup dashboard
+3.go to https://www.kaggle.com/datasets/bhavyadhingra00020/top-100-social-media-influencers-2024-countrywise and download data
+4.explore top 100 youtube data uk
+5.need more data from it, use python script to extract more from youtube api (go to conda env > put the csv file in same directory as python script)
+6.create and use youtube_db as for query > open SSMS > create database youtube_db; > use youtube_db;
+7.importing csv file to SQL Server> right-click youtube_db > Tasks -> Import flat file -> next -> D:\GitHub\Youtube API\updated_youtube_data_uk.csv -> named top_uk_youtubers_24 -> table schema dbo -> next(3x) -> finish
+8.expand table > youtube_db > tables > dbo.top_uk_youtubers_2024 > select top 1000 rows
+
+Process logs (cleaning data in SSMS)
+
+Data Cleaning
+1.Remove all the unnecessary columns by only selecting the one we needs
+2.extract channel names from numbering/first columns
+3.Rename column names (because is not in English)
+4.select column that needed > NOMBRE, total subscribers, total views, total videos column 
+5.use SUBSTRING, CHARINDEX function to extract channel name from NOMBRE column > create chanel_name column based on that with (CAST & as) and set it as VARCHAR(100)
+6.create VIEW with chanel_name, total subscribers, total views, total videos column 
+
+Data Quality Check
+1.Row count check
+2.Column count check
+3.Data type check
+4.Duplicate check
+
+PowerBI Dashboard
+1.Open PowerBI 
+2.Import from SQL
+3.Put server name and database(optional), connectivity mode = Import
+4.Select view_uk_youtubers_2024 > load
+5.Use DAX code in PowerBI to create measures > New Measures > (Total Subscriber, Total Views, Total Videos, Average Views per Video, Subscriber Engagement Rate, Views per Subscriber)
+6.Create dashboard > Textbox for title, Table(channel_name,Total Subscriber(M),Total Videos,Total Views(B)), Treemap(channel_name,Total Views(B),[As tooltip Total Subscriber(M),Total Videos], Scorecard(Avg Views per Video(M), Subscriber Engagement Rate, Views per Subscriber), Clustered bar chart(channel_name,Total Subscriber,filter top N(10) by Total Subscriber)
+7.Textbox for dashboard title (Top UK Youtubers 2025), format tree map color into gradient red, format clustered bar chart x-axis range(15minimum-35maximum) color red, tree map title Top 10 Youtubers by Views, clustered bar chart title Top 10 Youtubers by Subscribers
+8.Save as Top UK Youtubers 2025
+
+Excel Analysis Workbook ($USD)
+1.Do reconcilliations (Excel vs SQL)
+2.Convertion rate (0.02), Product Cost (5), Campaign cost (50,000)
+3.Top 3 UK Youtube channel (Avg Views per Vid, Potential Product Sales per Vid, Potential Revenue per Vid, Net profit, Difference)
+4.Potential Product Sales per Vid = Avg Views per Vid * Conversion rate
+5.Potential Revenue per Vid = Potential Product Sales per Vid * Product Cost
+6.Net Profit = Potential Revenure per Vid - Campaign Cost
+7.Difference = Excel and SQL calculation comparison
+8.Potential Product Sales per Vid (SQL) > rounded_avg_views_per_video * @conversionRate
+9.Potential Revenue per Vid > rounded_avg_views_per_video * @conversionRate * @productCost
+10.Net profit = (rounded_avg_views_per_video * @conversionRate * @productCost) - @campaignCost
+11.Both giving same conclusion
+12.Giving Insight
+
+
