@@ -354,7 +354,7 @@ HAVING
 
 ![GIF of Power BI Dashboard](assets/images/Top_UK_Youtubers_2025_PowerBI.png)
 
-This shows the Top UK Youtubers in 2024 so far. 
+This shows the Top UK Youtubers in 2025 so far. 
 
 
 ## DAX Measures
